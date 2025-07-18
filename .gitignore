@@ -1,0 +1,60 @@
+# =============================================================================
+# FOUNDRY & SOLIDITY
+# =============================================================================
+# Foundry build artifacts
+out/
+cache/
+cache_forge/
+broadcast/
+
+# Foundry coverage reports
+coverage/
+lcov.info
+*.lcov
+
+# Foundry documentation
+docs/
+
+# Gas reports
+gasreport.txt
+.gas-snapshot
+
+# Forge remappings cache
+remappings.txt
+
+# =============================================================================
+# SECURITY - NEVER COMMIT THESE!
+# =============================================================================
+# Environment variables (CRITICAL - contains private keys!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Private keys and secrets
+*.key
+*.pem
+secrets/
+private/
+
+# Wallet files
+keystore/
+*.json
+
+# =============================================================================
+# NODE.JS & NPM
+# =============================================================================
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Package lock files (choose one)
+package-lock.json
+yarn.lock
+
+# ====================================================

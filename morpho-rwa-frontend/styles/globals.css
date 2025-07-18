@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+  
+  * {
+    @apply border-gray-200;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-morpho-blue text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-morpho-blue border border-morpho-blue font-semibold py-3 px-6 rounded-lg hover:bg-blue-50 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg p-6 border border-gray-100;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-morpho-blue focus:border-transparent transition-all duration-200;
+  }
+  
+  .stat-card {
+    @apply bg-gray-50 rounded-lg p-4 border border-gray-100;
+  }
+  
+  .health-factor-good {
+    @apply text-rwa-green font-semibold;
+  }
+  
+  .health-factor-warning {
+    @apply text-warning-yellow font-semibold;
+  }
+  
+  .health-factor-danger {
+    @apply text-danger-red font-semibold;
+  }
+  
+  .wallet-button {
+    @apply bg-gradient-to-r from-morpho-blue to-morpho-light text-white font-semibold py-3 px-6 rounded-lg hover:shadow-morpho transform hover:scale-105 transition-all duration-200;
+  }
+}
+
+/* Custom utility styles */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-morpho-blue to-morpho-light bg-clip-text text-transparent;
+  }
+  
+  .shadow-morpho {
+    box-shadow: 0 10px 25px -3px rgba(30, 64, 175, 0.1), 0 4px 6px -2px rgba(30, 64, 175, 0.05);
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Loading spinner */
+.spinner {
+  border: 2px solid #f3f4f6;
+  border-top: 2px solid #1e40af;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
