@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { ethers } from 'ethers';
 import { CONTRACT_ADDRESSES, getUSDCAddress, getMorphoAddress, formatBigInt, truncateAddress } from '@/utils';
 import { useWeb3 } from '@/hooks/useWeb3';
 
@@ -16,27 +15,27 @@ const toBigInt = (value: string | number, decimals: number = 18): bigint => {
   return BigInt(integer + paddedFraction);
 };
 
-// ✅ UPDATED: Real RWA tokens deployed on Sepolia
-const realRWATokens = [
-  {
-    address: '0x988EED42856A332211162DbF368CBE805d9C59B2',
-    name: 'Centrifuge Real Estate Token',
-    symbol: 'CFG-RE',
+// Mock RWA tokens for demo (replace with real data from your contract)
+const mockRWATokens = [
+  { 
+    address: '0x742d35Cc6Bf32f9B1C9c85c5e8C8f0d8Ba1F7B95', 
+    name: 'Centrifuge CFG', 
     type: 'Real Estate',
+    symbol: 'CFG',
     decimals: 18
   },
-  {
-    address: '0x9dbAb878c774eb5506ad68aA9EA4b8362A5F744f',
-    name: 'Maple Corporate Credit Token',
-    symbol: 'MPL-CC',
+  { 
+    address: '0x853d955aCEf822Db058eb8505911ED77F175b99e', 
+    name: 'Maple Finance', 
     type: 'Corporate Credit',
+    symbol: 'MPL',
     decimals: 18
   },
-  {
-    address: '0xAb16820FFf7899e5ef605A1FD996B6C004796bb1',
-    name: 'TrueFi Uncollateralized Loan Token',
-    symbol: 'TRU-UL',
+  { 
+    address: '0x956F47F50A910163D8BF957Cf5846D573E7f87CA', 
+    name: 'TrueFi TRU', 
     type: 'Uncollateralized Loans',
+    symbol: 'TRU', 
     decimals: 18
   }
 ];
@@ -110,7 +109,7 @@ export default function Home() {
           setAccount(accounts[0]);
           setIsConnected(true);
           setChainId(chainId);
-          setSupportedTokens(realRWATokens);
+          setSupportedTokens(mockRWATokens); // In production, fetch from contract
         }
       } catch (error) {
         console.error('Error checking connection:', error);
@@ -128,7 +127,7 @@ export default function Home() {
         setAccount(accounts[0]);
         setIsConnected(true);
         setChainId(chainId);
-        setSupportedTokens(realRWATokens);
+        setSupportedTokens(mockRWATokens);
 
         // Switch to Sepolia if not already connected
         if (chainId !== '0xaa36a7') {
@@ -198,49 +197,11 @@ export default function Home() {
     try {
       const tokens = await getSupportedTokens();
       console.log('Supported tokens from contract:', tokens);
-      setSupportedTokens(realRWATokens);
+      // For now, use mock tokens but you can expand this
+      setSupportedTokens(mockRWATokens);
     } catch (error) {
       console.error('Error loading supported tokens:', error);
-      setSupportedTokens(realRWATokens);
-    }
-  };
-
-  // ✅ NEW: Get test tokens function
-  const getTestTokens = async (tokenAddress: string, tokenSymbol: string) => {
-    try {
-      setIsLoading(true);
-      
-      if (!window.ethereum) {
-        alert('Please install MetaMask');
-        return;
-      }
-
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      
-      // Simple contract interface for getTestTokens
-      const tokenContract = new ethers.Contract(
-        tokenAddress,
-        ['function getTestTokens() external'],
-        signer
-      );
-
-      console.log(`Getting test tokens for ${tokenSymbol}...`);
-      
-      const tx = await tokenContract.getTestTokens();
-      console.log(`Transaction submitted: ${tx.hash}`);
-      
-      alert(`✅ Getting ${tokenSymbol} test tokens!\nTransaction: ${tx.hash}\n\nWait for confirmation, then try your transaction again.`);
-      
-      // Wait for confirmation
-      await tx.wait();
-      alert(`🎉 ${tokenSymbol} tokens received! You now have 1000 ${tokenSymbol} tokens.`);
-      
-    } catch (error: any) {
-      console.error('Error getting test tokens:', error);
-      alert(`❌ Failed to get ${tokenSymbol} tokens: ${error.message}`);
-    } finally {
-      setIsLoading(false);
+      setSupportedTokens(mockRWATokens); // Fallback to mock
     }
   };
 
@@ -675,28 +636,6 @@ export default function Home() {
                   </select>
                 </div>
 
-                {/* ✅ NEW: Get Test Tokens Section */}
-                {selectedRWA && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <h3 className="font-semibold text-green-800 mb-2">🪙 Need Test Tokens?</h3>
-                    <p className="text-sm text-green-700 mb-3">
-                      Get 1000 test tokens for the selected RWA token to use as collateral.
-                    </p>
-                    <button
-                      onClick={() => {
-                        const selectedToken = supportedTokens.find(t => t.address === selectedRWA);
-                        if (selectedToken) {
-                          getTestTokens(selectedToken.address, selectedToken.symbol);
-                        }
-                      }}
-                      disabled={isLoading || !networkStatus.isSupported}
-                      className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 disabled:opacity-50"
-                    >
-                      {isLoading ? 'Getting Tokens...' : `Get ${supportedTokens.find(t => t.address === selectedRWA)?.symbol} Test Tokens`}
-                    </button>
-                  </div>
-                )}
-
                 {/* Collateral Amount */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -803,7 +742,6 @@ export default function Home() {
                     <li>✅ <strong>Contracts are deployed and live on Sepolia testnet</strong></li>
                     <li>🔵 <strong>Demo Mode:</strong> Safe preview with mock data for presentations</li>
                     <li>🟢 <strong>Live Mode:</strong> Real blockchain transactions with gas fees</li>
-                    <li>🪙 <strong>Get Test Tokens:</strong> Click the green button to mint RWA tokens first!</li>
                     <li>Monitor your health factor to avoid liquidation (keep above 1.5)</li>
                     <li>RWA prices may be less liquid than traditional crypto assets</li>
                     <li>Always test with small amounts first on testnets</li>

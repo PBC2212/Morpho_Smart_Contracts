@@ -194,7 +194,7 @@ export interface PositionLiquidatedEvent extends ContractEvent {
 // Constants and Configuration
 export const SUPPORTED_NETWORKS: Record<string, NetworkInfo> = {
   '0x1': {
-    chainId: '0xaa36a7',
+    chainId: '0x1',
     name: 'Ethereum',
     symbol: 'ETH',
     rpcUrl: 'https://eth-mainnet.alchemyapi.io/v2/',
@@ -202,7 +202,7 @@ export const SUPPORTED_NETWORKS: Record<string, NetworkInfo> = {
     isTestnet: false,
   },
   '0x2105': {
-    chainId: '0xaa36a7',
+    chainId: '0x2105',
     name: 'Base',
     symbol: 'ETH',
     rpcUrl: 'https://base-mainnet.g.alchemy.com/v2/',
@@ -218,7 +218,7 @@ export const SUPPORTED_NETWORKS: Record<string, NetworkInfo> = {
     isTestnet: true,
   },
   '0x14a33': {
-    chainId: '0xaa36a7',
+    chainId: '0x14a33',
     name: 'Base Sepolia',
     symbol: 'ETH',
     rpcUrl: 'https://base-sepolia.g.alchemy.com/v2/',
